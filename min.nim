@@ -123,6 +123,8 @@ proc stdLib*(i: In) =
     MINSYMBOLS.writeFile("{}")
   if not MINHISTORY.fileExists:
     MINHISTORY.writeFile("")
+  if not MINFULLHISTORY.fileExists:
+    MINFULLHISTORY.writeFile("")
   if not MINRC.fileExists:
     MINRC.writeFile("")
   i.lang_module
@@ -278,6 +280,12 @@ proc minRepl*(i: var MinInterpreter, simple = false) =
       let v = vals[0] 
       let prompt = v.getString()
       line = ed.readLine(prompt)
+
+      var f:File
+      discard f.open(MINFULLHISTORY, fmAppend)
+      f.write(line & "\n")
+      f.close()
+
       let r = i.interpret($line)
       if $line != "":
         i.printResult(r)
