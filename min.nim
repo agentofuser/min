@@ -287,8 +287,6 @@ proc minRepl*(i: var MinInterpreter, simple = false) =
       f.close()
 
       let r = i.interpret($line)
-      if $line != "":
-        i.printResult(r)
 
 proc minRepl*(simple = false) = 
   var i = newMinInterpreter(filename = "<repl>")
